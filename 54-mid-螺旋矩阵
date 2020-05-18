@@ -1,0 +1,66 @@
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> list = new ArrayList<>();
+        if (matrix == null || matrix.length == 0)return list;
+        //标志方向 右移1  下移2  左移3  上移4
+        int direction = 1;
+        //用于取元素 右移column++ 左移column-- 上移row-- 下移row++
+        int row = 0,column = 0;
+        //4个边界
+        int top = 0,right = matrix[0].length - 1,left = 0,bottom = matrix.length - 1;
+        while(top <= bottom && left <= right){
+            list.add(matrix[row][column]);
+            //先右移
+            switch(direction){
+                case 1:{
+                    //如果移动到右边界了 开始往下移动
+                    if(column == right){
+                        direction = 2;
+                        //修改边界
+                        top++;
+                        //修改方向
+                        row++;
+                        //continue;
+                    }else{
+                        //如果还没到右边界则要然column++标志右移
+                        column++;
+                    }
+                };break;
+                case 2:{
+                    //下移
+                    if(row == bottom){
+                        direction = 3;
+                        right--;
+                        column--;
+                        //continue;
+                    }else{
+                        row++;
+                    }
+                };break;
+                case 3:{
+                    //左移
+                    if(column == left){
+                        direction = 4;
+                        bottom--;
+                        row--;
+                        //continue;
+                    }else{
+                        column--;
+                    }
+                };break;
+                case 4:{
+                    //上移
+                    if(row == top){
+                        direction = 1;
+                        left++;
+                        column++;
+                        //continue;
+                    }else{
+                        row--;
+                    }
+                };break;
+            }
+        }
+        return list;
+    }
+}
