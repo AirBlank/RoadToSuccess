@@ -1,0 +1,37 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) return "";
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            //中心扩散法
+            //获取最长回文长度
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+            //这里的长度 
+            //start 和 end标志最长回文的开始和结束的下标
+            //如果长度大于当前的下标之差 ，则需要修改 下标
+            if (len > end - start) {
+                //start = i - (len - 1) / 2; // 当一个中心的情况 start = i - len/2 当两个中心的情况 i 右边做了 i+1 操作 所以 len -1
+                //这里之所以 -1 是针对i i+1情况
+                //如果是i情况 那么长度必定是奇数  奇数/2和（奇数-1）/2 结果是一样的
+                //如果是i、i+1情况 那么长度是偶数，（偶数 - 1）/2 会比 偶数/2 少一个1（值少1）
+                //而值少1就是因为i和i+1，
+                //看for循环传入的参数 是i开始的，那么左侧就是起点，长度已经加了1了 所以要减掉1
+                //可以看成 起点本来在 i和i+1的中间的
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+        return s.substring(start, end + 1);
+    }
+
+    private int expandAroundCenter(String s, int left, int right) {
+        int L = left, R = right;
+        while (L >= 0 && R < s.length() && s.charAt(L) == s.charAt(R)) {
+            L--;
+            R++;
+        }
+        return R - L - 1;
+    }
+}
