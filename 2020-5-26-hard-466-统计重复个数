@@ -1,0 +1,33 @@
+class Solution {
+    public int getMaxRepetitions(String s1, int n1, String s2, int n2) {
+        int countForS1 = 0;
+        int countForS2 = 0;
+        int indexForS2 = 0;
+        while(countForS1 < n1){
+            for(int i = 0;i < s1.length();i++){
+                //如果相等指针后移
+                if(s1.charAt(i) == s2.charAt(indexForS2))indexForS2++;
+                //加到最后一个 移动到开头
+                if(indexForS2 == s2.length()){
+                    //计数器 加1
+                    countForS2++;
+                    indexForS2 = 0;
+                }
+            }
+            //循环完毕 用了一个s1 所以 s1的计数器+1
+            countForS1++;
+            //这时候可以判断一下 indexForS2 是不是为0
+            //如果为0 说明 若干个s1 可以变成 若干个s2
+            //则可以用 n1 / countForS1 得到次数
+            //比如我知道了 countForS1为2 对应 countForS2为k
+            //那么 n1 / countForS1 就是总数，就是可以对应几次k
+            if(indexForS2 == 0){
+                int times = n1 / countForS1;
+                countForS1 *= times;
+                countForS2 *= times;
+                //这里要继续执行下去 是考虑到不能整除的情况 比如剩最后一个s1还要比较
+            }
+        }
+        return countForS2 / n2;
+    }
+}
