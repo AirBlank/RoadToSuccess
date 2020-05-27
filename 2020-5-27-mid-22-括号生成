@@ -1,0 +1,27 @@
+class Solution {
+    List<String> result = new ArrayList<>();
+    public List<String> generateParenthesis(int n) {
+        if (n == 0)return result;
+        dfs(n,n,"");
+        return result;
+    }
+
+    //left和right各指左右括号的剩余可用数量
+    private void dfs(int left,int right,String currentStr) {
+        if(left == 0 && right == 0){
+            result.add(currentStr);
+            return;
+        }
+        //left > 0可以加左括号
+        if(left > 0){
+            dfs(left - 1,right,currentStr + "(");
+        }
+        //如果right 大于 left 即 右括号剩余可用数量大于左括号剩余可用数量 才能加右括号
+        //如果 右括号剩余可用数量 <= 左括号剩余可用数量 
+        //这时候加入右括号 直接就不可能生成括号对
+        //比如 ()这样相等 加入右括号 不满足条件
+        if(right > left){
+            dfs(left,right - 1,currentStr + ")");
+        }
+    }
+}
