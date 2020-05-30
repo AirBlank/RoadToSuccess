@@ -1,0 +1,40 @@
+class Solution {
+    public int orderOfLargestPlusSign(int N, int[][] mines) {
+        if(N == 0)return 0;
+        int[][] grid = new int[N][N];
+        int max = 0;
+        for(int i = 0;i < grid.length;i++){
+            for(int j = 0;j < grid[0].length;j++){
+                grid[i][j] = 1;
+            }
+        }
+        for(int i = 0;i < mines.length;i++){
+            grid[mines[i][0]][mines[i][1]] = 0;
+        }
+        //开始计算
+        for(int i = 0;i < grid.length;i++){
+            for(int j = 0;j < grid[0].length;j++){
+                //遇到一个1 从这里往外扩散
+                if(grid[i][j] == 1){
+                    max = Math.max(max,1);
+                    //可以先剪枝一下
+                    //如果这个1最大长度小于max
+                    if(Math.min(i + 1,Math.min(j + 1,Math.min(N - i,N - j))) <= max)continue;
+                    //向四周扩散
+                    int top = 1,bottom = 1,left = 1,right = 1;
+                    //上
+                    while(i - top >= 0 && grid[i - top][j] == 1)top++;
+                    //下
+                    while(i + bottom < N && grid[i + bottom][j] == 1)bottom++;
+                    //左
+                    while(j - left >= 0 && grid[i][j - left] == 1)left++;
+                    //右
+                    while(j + right < N && grid[i][j + right] == 1)right++;
+                    //最后取最小的边 和 max比较
+                    max = Math.max(max,Math.min(left,Math.min(right,Math.min(top,bottom))));
+                }
+            }
+        }
+        return max;
+    }
+}
