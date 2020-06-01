@@ -1,0 +1,16 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        if(nums.length == 0)return 0;
+        int result = Integer.MIN_VALUE;
+        int temp = 0;
+        for(int i = 0;i < nums.length;i++){
+            temp += nums[i];
+            //if(temp < 0)temp = 0;
+            //每次取最大的
+            //这一步是考虑前面可能可以抵消当前的负数
+            temp = Math.max(temp,nums[i]);
+            result = Math.max(result,temp);
+        }
+        return result;
+    }
+}
