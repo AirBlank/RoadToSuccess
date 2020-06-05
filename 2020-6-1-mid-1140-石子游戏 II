@@ -1,0 +1,36 @@
+class Solution {
+     public int stoneGameII(int[] piles) {
+        //后缀和数组
+        int[] post_sum = new int[piles.length];
+        // 记忆化防止重复搜索
+        int[][] mem = new int[piles.length][piles.length];
+        post_sum[piles.length - 1] = piles[piles.length - 1];
+        // 后缀和
+        for (int i = piles.length - 2; i >= 0; i--)
+            post_sum[i] = post_sum[i + 1] + piles[i];
+        
+        return helper(piles, post_sum, mem, 0, 1);
+    }
+    
+    public int helper(int[] piles, int[] sum, int[][] mem, int i, int M) {
+        
+        //如果i超过长度 那就没有石子可以拿了 直接返回0
+        if (i >= piles.length)
+            return 0;
+        
+        // i + 2M 超过长度 可以一次性拿走，那就全部拿走，就是当前i的后缀和
+        if ((i + 2 * M >= piles.length))
+            return sum[i];
+        
+        //mem[i][M]代表了从第i堆开始M条件下的最大值
+        if (mem[i][M] != 0)
+            return mem[i][M];
+        // 我想拿最多的，那就设法让对方拿到最少的
+        int min = Integer.MAX_VALUE;
+        for (int j = 1; j <= 2 * M; j++)        
+            min = Math.min(min, helper(piles, sum, mem, i + j, Math.max(M, j)));
+        //保存最大值
+        mem[i][M] = sum[i] - min;
+        return sum[i] - min;
+    }
+}
