@@ -1,0 +1,27 @@
+class Solution {
+    
+    public int findCircleNum(int[][] M) {
+        //记录第i个学生是否被访问过
+        int[] visited = new int[M.length];
+        int result = 0;
+        //遍历每个学生
+        for (int i = 0; i < M.length; i++) {
+            if (visited[i] == 0) {
+                dfs(M, visited, i);
+                result++;
+            }
+        }
+        return result;
+    }
+
+    public void dfs(int[][] M, int[] visited, int i) {
+        //遍历当前学生与其他学生的关系
+        for (int j = 0; j < M.length; j++) {
+            if (M[i][j] == 1 && visited[j] == 0) {
+                visited[j] = 1;
+                dfs(M, visited, j);
+            }
+        }
+    }
+    
+}
