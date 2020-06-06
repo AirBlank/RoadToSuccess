@@ -1,0 +1,48 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices == null ||prices.length == 0)return 0;
+        int result = 0;
+        //当前买的 一定是谷底
+        int currentBuy = prices[0];
+        //维持一个连涨过程的最大值
+        int tempTop = 0;
+        //设置标志 标志是否可以卖
+        boolean flag = false;
+        for(int i = 1;i < prices.length;i++){
+            //遇到小的 也就是股票跌 等跌到了谷底再买
+            if(prices[i] < currentBuy || prices[i] < tempTop){
+                //这里开始跌了
+                if(flag){
+                    //先把之前的卖了
+                    result = result + (tempTop - currentBuy);
+                    flag = false;
+                }
+                //更新谷底
+                currentBuy = prices[i];
+                tempTop = 0;
+            }else if(prices[i] > currentBuy){
+                //股票一直涨
+                //股票涨 涨到 下一个跌之前就卖
+                tempTop = prices[i];
+                //涨了就设置为true
+                flag = true;
+            }
+        }
+        if(flag)result = result + tempTop - currentBuy;
+        return result;  
+    }
+}
+
+//精简写法
+/*
+class Solution {
+    public int maxProfit(int[] prices) {
+        int maxprofit = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1])
+                maxprofit += prices[i] - prices[i - 1];
+        }
+        return maxprofit;
+    }
+}
+*/
