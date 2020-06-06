@@ -1,0 +1,20 @@
+class Solution {
+    private boolean flag = false;
+    public boolean canReach(int[] arr, int start) {
+        int[] visited = new int[arr.length];
+        dfs(arr,visited,start);
+        return flag;
+    }
+
+    private void dfs(int[] arr,int[] visited,int index){
+        if(index <0 || index >= arr.length || visited[index] != 0)return;
+        visited[index] = 1;
+        if(arr[index] == 0){
+            flag = true;
+            return;
+        }
+        dfs(arr,visited,index + arr[index]);
+        dfs(arr,visited,index - arr[index]);
+    }
+
+}
