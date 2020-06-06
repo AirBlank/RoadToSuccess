@@ -1,0 +1,46 @@
+class Solution {
+    int rows,columns;
+    int[][] matrix;
+    int[][] visited;
+    List<List<Integer>> result;
+    public List<List<Integer>> pathWithObstacles(int[][] obstacleGrid) {
+        if(obstacleGrid == null)return null;
+        rows = obstacleGrid.length;
+        columns = obstacleGrid[0].length;
+        matrix = obstacleGrid;
+        result = new ArrayList<>();
+        visited = new int[rows][columns];
+        dfs(0,0,new ArrayList<>());
+        return result;
+    }
+
+    private void dfs(int i,int j,List<List<Integer>> res){
+        //超格子跳过    是障碍跳过  访问了跳过
+        if(i > rows - 1 || j > columns - 1 || matrix[i][j] == 1 || visited[i][j] != 0){
+            
+            return;
+        }
+        //标志
+        visited[i][j] = 1;
+        List temp = new ArrayList<>();
+        temp.add(i);
+        temp.add(j);
+        res.add(temp);
+        //到达结尾
+        if(i == rows - 1 && j == columns - 1) {
+            //这里需要拷贝出来
+            for (int k = 0; k < res.size(); k ++) {
+                List<Integer> flag = new ArrayList<>();
+                //每次从res中取出坐标
+                flag.addAll(res.get(k));
+                result.add(flag);
+            }
+        }else {
+            //往右 往下
+            dfs(i + 1,j,res);
+            dfs(i,j + 1,res);
+            //回溯
+            res.remove(res.size() - 1);
+        }
+    }
+}
