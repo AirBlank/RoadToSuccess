@@ -1,0 +1,32 @@
+class Solution {
+    
+    public int minCostClimbingStairs(int[] cost) {
+        int[] dp = new int[cost.length];
+        dp[0] = cost[0];
+        dp[1] = cost[1];
+        for(int i = 2;i < cost.length;i++){
+            dp[i] = Math.min(dp[i-1] + cost[i],dp[i-2] + cost[i]);
+        }
+        //因为最后可以不经过最后一个楼梯,可以从倒数第二个直接上两个楼梯直接上去，所以需要比较Dp[length-1]和Dp[length-2]的大小
+        return Math.min(dp[cost.length - 1],dp[cost.length - 2]);
+    }
+
+    /*
+    public int minCostClimbingStairs(int[] cost) {
+        int[] dp = new int[cost.length + 1];
+        dp[0] = cost[0];
+        dp[1] = cost[1];
+        for(int i = 2;i < cost.length + 1;i++){
+            if(i == cost.length){
+                //到达顶楼 没有屎给你踩了
+                dp[i] = Math.min(dp[i-1] + 0,dp[i-2] + 0);
+                break;
+            }
+            dp[i] = Math.min(dp[i-1] + cost[i],dp[i-2] + cost[i]);
+        }
+        //因为最后可以不经过最后一个楼梯,可以从倒数第二个直接上两个楼梯直接上去，所以需要比较Dp[length-1]和Dp[length-2]的大小
+        return dp[cost.length];
+    }
+    */
+
+}
