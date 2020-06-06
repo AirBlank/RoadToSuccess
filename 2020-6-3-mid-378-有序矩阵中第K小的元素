@@ -1,0 +1,25 @@
+class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+        int rows = matrix.length, columns = matrix[0].length;
+        int left = matrix[0][0], right = matrix[rows - 1][columns - 1];
+        while(left < right){
+            int mid = (left + right) / 2;
+            int count = 0;
+            int i = rows - 1,j = 0;
+            while(i >= 0 && j < columns){
+                if(matrix[i][j] <= mid){
+                    count += i + 1;
+                    j++;
+                }else{
+                    i--;
+                }
+            }
+            if(count < k){
+                left = mid + 1;
+            }else{
+                right = mid;
+            }
+        }
+        return left;
+    }
+}
