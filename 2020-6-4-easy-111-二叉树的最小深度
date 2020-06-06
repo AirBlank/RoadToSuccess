@@ -1,0 +1,30 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int minDepth(TreeNode root) {
+        return dfs(root);
+    }
+    
+    private int dfs(TreeNode node){
+        if(node == null)return 0;
+        
+        if(node.left == null && node.right == null)return 1;
+        if(node.left == null)return dfs(node.right) + 1;
+        if(node.right == null)return dfs(node.left) + 1;
+        return Math.min(dfs(node.left),dfs(node.right)) + 1;
+        //*******************
+        //int left = dfs(node.left);
+        //int right = dfs(node.right);
+        //如果left和right都为0，我们返回1即可，
+        //如果left和right只有一个为0，说明他只有一个子结点，我们只需要返回它另一个子节点的最小深度+1即可。
+        //如果left和right都不为0，说明他有两个子节点，我们只需要返回最小深度的+1即可。
+        //return (left == 0 || right == 0) ? left + right + 1 : Math.min(left, right) + 1;
+    }
+}
