@@ -1,0 +1,21 @@
+class Solution {
+    public boolean checkPerfectNumber(int num) {
+        if (num <= 0) {
+            return false;
+        }
+        int sum = 0;
+        for (int i = 1; i * i <= num; i++) {
+            if (num % i == 0) {
+                //加上前一个因数
+                sum += i;
+                if (i * i != num) {
+                    //不是中间的 加上后一个因数
+                    sum += num / i;
+                }
+                //如28 = 2 * 14  加上2的时候也要加上28/2
+            }
+        }
+        //这里为什么要-num 是因为在i = 1 的时候 会加上一个num / 1 = num，所以要减去
+        return sum - num == num;
+    }
+}
