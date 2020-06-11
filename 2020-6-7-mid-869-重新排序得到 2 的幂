@@ -1,0 +1,65 @@
+class Solution {
+    public boolean reorderedPowerOf2(int N) {
+        // Build eg. N = 128 -> A = [1, 2, 8]
+        String S = Integer.toString(N);
+        int[] A = new int[S.length()];
+        for (int i = 0; i < S.length(); ++i)
+            A[i] = S.charAt(i) - '0';
+        return permutations(A, 0);
+    }
+
+    //判断数组 组成的数是不是二次幂
+    public boolean isPowerOfTwo(int[] A) {
+        if (A[0] == 0) return false;
+        int N = 0;
+        for (int x: A)N = 10 * N + x;
+        while (N > 0 && ((N & 1) == 0))N >>= 1;
+        return N == 1;
+    }
+
+    //全排列
+    public boolean permutations(int[] A, int start) {
+        //如果start == A.length 说明当前排列完成 可以开始判断
+        if (start == A.length)return isPowerOfTwo(A);
+        //从start位开始
+        for (int i = start; i < A.length; ++i) {
+            //确定第一个位置的数
+            swap(A, start, i);
+            //继续往下判断 符合条件直接返回true
+            if (permutations(A, start + 1))return true;
+            //复原
+            swap(A, start, i);
+        }
+        return false;
+    }
+    //交换数组两个位置的数字
+    public void swap(int[] A, int i, int j) {
+        int t = A[i];
+        A[i] = A[j];
+        A[j] = t;
+    }
+}
+
+//遍历2的幂次和N是否有相同的数字组成 如果相同，则可以排成2的幂次
+/*
+class Solution {
+    public boolean reorderedPowerOf2(int N) {
+        int[] A = count(N);
+        for (int i = 0; i < 31; ++i)
+            if (Arrays.equals(A, count(1 << i)))
+                return true;
+        return false;
+    }
+
+    // Returns the count of digits of N
+    // Eg. N = 112223334, returns [0,2,3,3,1,0,0,0,0,0]
+    public int[] count(int N) {
+        int[] ans = new int[10];
+        while (N > 0) {
+            ans[N % 10]++;
+            N /= 10;
+        }
+        return ans;
+    }
+}
+*/
