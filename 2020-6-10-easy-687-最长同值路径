@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int max = 0;
+    public int longestUnivaluePath(TreeNode root) {
+        doLongestUnivaluePath(root);
+        return max;
+    }
+
+    private int doLongestUnivaluePath(TreeNode root) {
+        if (root == null) return 0;
+        int left = doLongestUnivaluePath(root.left);
+        int right = doLongestUnivaluePath(root.right);
+        //如果碰到左右中连着的值都相同
+        if (root.left != null && root.right != null && root.left.val == root.right.val && root.left.val == root.val) {
+            max = Math.max(left + right + 2, max);
+        }
+        int length = 0;
+        //右侧为空  左和中的值相等
+        if (root.left != null && root.val == root.left.val) {
+            length = left + 1;
+        }
+        //左侧为空  右和中的值相等
+        if (root.right != null && root.val == root.right.val) {
+            length = Math.max(right + 1, length);
+        }
+        max = Math.max(length, max);
+        return length;
+    }
+
+}
