@@ -1,0 +1,16 @@
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) return true;
+        TreeNode left = root.left,right = root.right;
+        // 找寻左子树中的最右（数值最大）节点
+        while(left != null && left.right != null)left = left.right;
+        // 找寻右子树中的最左（数值最小）节点
+        while(right != null && right.left != null)right = right.left;
+        // 当前层是否合法
+        //boolean flag = (left.val < root.val) && (root.val < right.val);
+        boolean flag = (left == null || left.val < root.val) && (right == null || root.val < right.val);
+        // 进入左子树和右子树并判断是否合法
+        return  flag && isValidBST(root.left) && isValidBST(root.right);
+    }
+    
+}
