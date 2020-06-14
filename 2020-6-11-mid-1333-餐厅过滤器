@@ -1,0 +1,15 @@
+class Solution {
+    public List<Integer> filterRestaurants(int[][] restaurants, int veganFriendly, int maxPrice,
+                                           int maxDistance) {
+        return Arrays.stream(restaurants)
+                //先过滤掉不符合条件的
+                .filter(x -> (veganFriendly != 1 || x[2] == 1) && x[3] <= maxPrice && x[4] <= maxDistance)
+                //先根据rating从高到低排序 
+                //如果 rating 相同，那么按 id 从高到低排序
+                //rating下标为1 id下标为0
+                .sorted((x1, x2) -> x1[1] == x2[1] ? x2[0] - x1[0] : x2[1] - x1[1])
+                .mapToInt(x -> x[0])
+                .boxed()
+                .collect(Collectors.toList());
+    }
+}
