@@ -1,0 +1,28 @@
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null)return null;
+        ListNode cur = head,pre = null;
+        while(cur.next != null){
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        cur.next = pre;
+        return cur;
+    }
+    /*
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null,cur = head,next = null;
+        while(cur != null){
+            //先获得后续节点
+            next = cur.next;
+            //修改当前值
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+    */
+}
