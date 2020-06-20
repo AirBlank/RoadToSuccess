@@ -1,0 +1,16 @@
+class Solution {
+    /*
+    第一次/5 是每隔5出现一次5
+    第二次/25 是每隔25出现2次5  所以在5的基础上要多算一次
+    第二次/125 是每隔125出现3次5  所以在25的基础上要多算一次
+    后面的以此类推
+    */
+    public int trailingZeroes(int n){
+        int result = 0;
+        while(n > 0){
+            result += n / 5;
+            n = n  / 5;
+        }
+        return result;
+    }
+}
