@@ -1,0 +1,25 @@
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if(strs == null || strs.length == 0)return "";
+        //这里也可以不用这样写
+        //直接遍历数组 取到最短的字符串的下标即可
+        Arrays.sort(strs, Comparator.comparingInt(String::length));
+        StringBuffer sb = new StringBuffer();
+        for(int i = 0;i < strs[0].length();i++){
+            boolean flag = true;
+            char temp = strs[0].charAt(i);
+            for(int j = 1;j < strs.length;j++){
+                if(strs[j].charAt(i) != temp){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag){
+                sb.append(temp);
+            }else{
+                break;
+            }
+        }
+        return sb.toString();
+    }
+}
