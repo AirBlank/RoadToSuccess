@@ -1,0 +1,15 @@
+class Solution {
+    private StringBuilder res;
+    public String largestNumber(int[] nums) {
+        if(nums == null || nums.length == 0)return "";
+        res = new StringBuilder();
+        Arrays.stream(nums)
+            .boxed()
+            .map(x -> x.toString())
+            .sorted((x, y) -> (y + x).compareTo(x + y))
+            .forEach(x -> res.append(x));
+        //这一个判断是为了防止测试用例：输入[0,0] 预期结果0
+        return res.charAt(0) == '0' ? "0" : res.toString();
+    }
+
+}
