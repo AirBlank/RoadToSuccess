@@ -1,0 +1,26 @@
+public class Solution {
+    //dp
+    public int coinChange(int[] coins, int amount) {
+        // 给 0 占位
+        int[] dp = new int[amount + 1];
+        // 注意：因为要比较的是最小值，这个不可能的值就得赋值成为一个最大值
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int coin : coins) {
+                //i - coin >= 0 i代表要凑的金额 要凑的金额必须大于等于当前硬币价值 如果小于的话明显不满足条件
+                //dp[i - coin] != amount + 1 代表i - coin这个金额能够被凑出来
+                if (i - coin >= 0 && dp[i - coin] != amount + 1) {
+                    dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
+                }
+            }
+        }
+        //如果没凑出来 说明还是amount + 1 直接置为-1即可
+        if (dp[amount] == amount + 1) {
+            dp[amount] = -1;
+        }
+        return dp[amount];
+    }
+}
+
+
