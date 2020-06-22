@@ -1,0 +1,40 @@
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(nums == null || nums.length < 3)return result;
+        Arrays.sort(nums);
+        int n = nums.length;
+        for(int i = 0;i < n;i++){
+            //排序完 遇到大于0的 说明后面之和肯定不可能为0
+            if(nums[i] > 0)return result;
+            //遇到重复元素
+            //对于重复元素：跳过，避免出现重复解
+            //比如示例的 [-1, 0, 1, 2, -1, -4] -> [-4, -1, -1, 0, 1, 2]
+            //第一次-1可以得到所有关于-1的解 那么下次就可以直接跳过第二个-1
+            if(i > 0 && nums[i] == nums[i - 1])continue;
+            int left = i + 1,right = n - 1;
+            while(left < right){
+                if(nums[i] + nums[left] + nums[right] == 0){
+                    //等于0 得到当前结果
+                    result.add(new ArrayList<>(Arrays.asList(nums[i],nums[left],nums[right])));
+                    //遇到重复的 分别右移和左移 防止造成重复解
+                    //还是上面那个例子[-4, -1, -1, 0, 1, 2]
+                    //假设此时i = 1，left = 2，right = 5 对应值为 -1 -1 2 刚刚好为解
+                    //这时候left++=3对应的还是-1，就变成重复解了 所以需要跳过
+                    //right也是同理
+                    while(left < right && nums[left] == nums[left + 1])left++;
+                    while(left < right && nums[right] == nums[right - 1])right--;
+                    left++;
+                    right--;
+                }else if(nums[i] + nums[left] + nums[right] > 0){
+                    //大于0 右指针需要左移动来减小值
+                    right--;
+                }else{
+                    //小于0 左指针需要右移动来增大值
+                    left++;
+                }
+            }
+        }
+        return result;
+    }
+}
