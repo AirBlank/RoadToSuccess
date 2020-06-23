@@ -1,0 +1,42 @@
+class Solution {
+    private boolean result = false;
+    public boolean exist(char[][] board, String word) {
+        int rows = board.length,columns = board[0].length;
+        //访问矩阵
+        boolean[][] visited = new boolean[rows][columns];
+        for(int i = 0;i < rows;i++){
+            for(int j = 0;j < columns;j++){
+                if(board[i][j] == word.charAt(0)){
+                    //遇到合法的开头 就可以进去尝试
+                    dfs(visited,board,word,0,i,j);
+                    if(result)break;
+                }
+            }
+        }
+        return result;
+    }
+
+    private void dfs(boolean[][] visited,char[][] board,String word,int wordIndex,int row,int column){
+        //找到 返回
+        if(wordIndex == word.length()){
+            result = true;
+            return;
+        }
+        //越界
+        if(row < 0 || row >= board.length || column < 0 || column >= board[0].length)return;
+        //访问过 return
+        if(visited[row][column])return;
+        //当前字符与字符串的位置不符合 返回
+        if(board[row][column] != word.charAt(wordIndex))return;
+        //访问过
+        visited[row][column] = true;
+        int[] dx = new int[]{1,-1,0,0};
+        int[] dy = new int[]{0,0,1,-1};
+        for(int i = 0;i < 4;i++){
+            //上面已经判断字符不符合 所以接下来 字符都是符合的 所以下标要加上1
+            if(!result)dfs(visited,board,word,wordIndex + 1,row + dx[i],column + dy[i]);
+        }
+        //回溯
+        visited[row][column] = false;
+    }
+}
