@@ -1,0 +1,36 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int currentIndex = 0;
+        int currentNum = Integer.MIN_VALUE;
+        for(int i = 0;i < nums.length;i++){
+            //先查找是否相等 
+            //相等说明是重复元素
+            //重复元素继续后移动即可
+            if(nums[i] == currentNum){
+                continue;
+            }else{
+                //否则不是重复元素
+                //更新数字
+                currentNum = nums[i];
+                nums[currentIndex] = currentNum;
+                currentIndex++;
+            }
+        }
+        return currentIndex;
+    }
+}
+
+//下面更优雅：
+/*
+public int removeDuplicates(int[] nums) {
+    if (nums.length == 0) return 0;
+    int i = 0;
+    for (int j = 1; j < nums.length; j++) {
+        if (nums[j] != nums[i]) {
+            i++;
+            nums[i] = nums[j];
+        }
+    }
+    return i + 1;
+}
+*/
