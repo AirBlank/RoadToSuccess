@@ -1,0 +1,47 @@
+class Solution {
+    public int strStr(String haystack, String needle) {
+        //return haystack.indexOf(needle);
+
+        //优雅版本
+        if(needle == "")return 0;
+        int i = 0,j = 0;
+        while(i < haystack.length() && j < needle.length()){
+            if(haystack.charAt(i) == needle.charAt(j)){
+                i++;
+                j++;
+            }else{
+                //i复原 然后+1往后移动一位
+                i = i - j + 1;
+                j = 0;
+            }
+        }
+        //跳出循环的时候 要么找到了 要么没找到
+        if(j == needle.length())return i - needle.length();
+        return -1;
+
+        //不优雅
+        /*
+        if(haystack == null || needle == null)return -1;
+        if(needle.equals(""))return 0;
+        int firstIndex,secondIndex;
+        for(int i = 0;i < haystack.length();i++){
+            //找到第一个相同字符
+            if(haystack.charAt(i) == needle.charAt(0)){
+                firstIndex = i;
+                secondIndex = 0;
+                while(secondIndex != needle.length()){
+                    if(firstIndex >= haystack.length())return -1;
+                    if(haystack.charAt(firstIndex) == needle.charAt(secondIndex)){
+                        firstIndex++;
+                        secondIndex++;
+                    }else{
+                        break;
+                    }
+                }
+                if(secondIndex == needle.length())return i;
+            }
+        }
+        return -1;
+        */
+    }
+}
