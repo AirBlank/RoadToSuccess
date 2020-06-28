@@ -1,0 +1,19 @@
+class Solution {
+    public int[] replaceElements(int[] arr) {
+        //保存右侧的最大值
+        int max = arr[arr.length - 1];
+        //保存当前位的值
+        int temp = arr[arr.length - 1];
+        arr[arr.length - 1] = -1;
+        for(int i = arr.length - 2;i >= 0;i--){
+            //先更新右侧最大值
+            //先保存当前下标值
+            temp = arr[i];
+            //更新当前位为右侧最大值
+            arr[i] = max;
+            //更新max
+            max = Math.max(temp,max);
+        }
+        return arr;
+    }
+}
