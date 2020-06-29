@@ -1,0 +1,17 @@
+class Solution {
+    public int numTrees(int n) {
+        int[] result = new int[n + 1];
+        //空树
+        result[0] = 1;
+        //或者是只有一个节点 
+        //那么树的结构只有一种
+        result[1] = 1;
+        for(int i = 2;i < n + 1;i++){
+            //内层循环 统计j ~ i个节点的树结构数量
+            for(int j = 1;j <= i;j++){
+                result[i] += result[j - 1] * result[i - j];
+            }
+        }
+        return result[n];
+    }
+}
