@@ -1,0 +1,17 @@
+class Solution {
+    public boolean findNumberIn2DArray(int[][] matrix, int target) {
+        //选取左下角或右上角作为标志位
+        //这里选取左下角
+        //左下角元素特征：大于所在列元素，小于所在行元素
+        int i = matrix.length - 1, j = 0;
+        while(i >= 0 && j < matrix[0].length){
+            //target小 往上走
+            if(matrix[i][j] > target) i--;
+            //target大 往右走
+            else if(matrix[i][j] < target) j++;
+            //相等 直接返回
+            else return true;
+        }
+        return false;
+    }
+}
