@@ -1,0 +1,36 @@
+class Solution {
+    public int sumSubarrayMins(int[] A) {
+        int result = 0,mod = 1000000007;
+        Stack<Integer> stack = new Stack<>();
+        //left统计 左侧第一个比当前位（A）值小的索引
+        int[] left = new int[A.length];
+        //right统计 右侧第一个比当前位（A）值小的索引
+        int[] right = new int[A.length];
+        //统计左侧
+        for(int i = 0;i < A.length;i++){
+            //把 所有栈元素（下标）对应的A数组的值 大于等于 A[i] 的全部出栈
+            while(!stack.isEmpty() && A[stack.peek()] >= A[i])stack.pop();
+            //记录左侧的最小值 没有就是 -1
+            left[i] = stack.isEmpty() ? -1 : stack.peek();
+            //入栈
+            stack.push(i);
+        }
+        stack = new Stack<>();
+        //统计右侧
+        for(int i = A.length - 1;i >= 0;i--){
+            //把 所有栈元素（下标）对应的A数组的值 大于 A[i] 的全部出栈
+            while(!stack.isEmpty() && A[stack.peek()] > A[i])stack.pop();
+            //记录右侧的最小值 没有就是数组长度
+            right[i] = stack.isEmpty() ? A.length : stack.peek();
+            //入栈
+            stack.push(i);
+        }
+        //计算结果
+        for(int i = 0;i < A.length;i++){
+            //用单调栈求出 A[i] 对应的左右最近比 A[i] 小的数，记索引为 left,right, A[i] 为最小数能形成的数组为
+            result += (i - left[i]) * (right[i] - i) % mod * A[i] % mod;
+            result %= mod;
+        }
+        return result;
+    }
+}
