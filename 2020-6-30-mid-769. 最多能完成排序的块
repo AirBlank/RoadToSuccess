@@ -1,0 +1,16 @@
+class Solution {
+    /*
+    如果分割后的数组中，最大数的下标与arr[i]所代表的值不相等，那么排序后，就无法形成从小到大的连贯的数组了，
+    所以只有找到最大的数与下标当等时，才能加1，如果没有找到，那么子数组继续向后寻找，找到后重新查找新的子数组
+    */
+    public int maxChunksToSorted(int[] arr) {
+        int result = 0,max = 0;
+        for(int i = 0;i < arr.length;i++){
+            max = Math.max(arr[i],max);
+            //要划分成小块 则必须满足小块之内排序后 对排序之外 是正确的
+            //即对应下标的左侧值，必须全部小于等于当前下标
+            if(i == max)result++;
+        }
+        return result;
+    }
+}
