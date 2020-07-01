@@ -1,0 +1,11 @@
+class Solution {
+    public double average(int[] salary) {
+        int max = salary[0],min = salary[0],all = 0;
+        for(int i = 0;i < salary.length;i++){
+            all += salary[i];
+            max = Math.max(max,salary[i]);
+            min = Math.min(min,salary[i]);
+        }
+        return (all - max - min) * 1.0 / (salary.length - 2) * 1.0;
+    }
+}
