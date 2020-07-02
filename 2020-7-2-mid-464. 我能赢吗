@@ -1,0 +1,45 @@
+class Solution {
+    public boolean canIWin(int maxChoosableInteger, int desiredTotal) {
+        //直接选最大 直接赢了
+        if(desiredTotal <= maxChoosableInteger)return true;
+        //全部加起来都没desiredTotal多
+        if((1 + maxChoosableInteger) * maxChoosableInteger / 2 < desiredTotal) return false;
+        //整一个记忆数组
+        //代表了对应数字是否被选过
+        int[] state = new int[maxChoosableInteger + 1];
+        return dfs(state,desiredTotal,new HashMap<String,Boolean>());
+    }
+
+    private boolean dfs(int[] state,int desiredTotal,HashMap<String, Boolean> map){
+        //先获取当前选的状态
+        String key = Arrays.toString(state);
+        //如果当前状态存在结果 直接返回结果
+        if(map.containsKey(key))return map.get(key);
+        //没有结果 就遍历
+        for(int i = 1;i < state.length;i++){
+            //state对应位为1是被选过的 不能再选 只能选没被选过的
+            if(state[i] == 0){
+                //选中
+                state[i] = 1;
+                //如果选中这个大于desiredTotal 说明赢了
+                //或者是当前选的还没赢 但是下一个选的输了 那就说明这次赢了
+                if(desiredTotal - i <= 0 || !dfs(state,desiredTotal - i,map)){
+                    //保存状态
+                    //代表这个key之后的玩家 肯定能选一个能赢的
+                    map.put(key,true);
+                    //回溯状态
+                    //成功也要回溯是因为 成功说明了另外一个玩家的失败
+                    //另外一个玩家必须去寻找其他所有可能 而成功的没有回溯就导致这个数被占用了 无法遍历其他的所有可能
+                    state[i] = 0;
+                    //返回真
+                    return true;
+                }
+                //无论赢不赢 都要回溯
+                state[i] = 0;
+            }
+        }
+        //全部都赢不了
+        map.put(key,false);
+        return false;
+    }
+}
