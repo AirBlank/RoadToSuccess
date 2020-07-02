@@ -1,0 +1,39 @@
+class Solution {
+    public int countCharacters(String[] words, String chars) {
+        //这里可以用长度为26的数组来做
+        //也可以用hashMap来做
+        HashMap<Character,Integer> charMap = new HashMap<>();
+        //统计结果
+        int result = 0;
+        for(int i = 0;i < chars.length();i++){
+            charMap.put(chars.charAt(i),charMap.getOrDefault(chars.charAt(i),0) + 1);
+        }
+        for(String word : words){
+            if(word.length() > chars.length())continue;
+            //对每个字符串来统计
+            //先弄一个临时的map
+            HashMap<Character,Integer> temp = new HashMap<>();
+            temp.putAll(charMap);
+            boolean flag = true;
+            for(int i = 0;i < word.length();i++){
+                if(!temp.containsKey(word.charAt(i))){
+                    flag = false;
+                    break;
+                }else{
+                    //存在这个key
+                    //看看剩几个
+                    int has = temp.get(word.charAt(i));
+                    //为0不能再减
+                    if(has == 0){
+                        flag = false;
+                        break;
+                    }else{
+                        temp.put(word.charAt(i),has - 1);
+                    }
+                }
+            }
+            if(flag)result += word.length();
+        }
+        return result;
+    }
+}
