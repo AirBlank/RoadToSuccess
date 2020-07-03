@@ -1,0 +1,37 @@
+class Solution {
+    public void duplicateZeros(int[] arr) {
+        int i = 0 , zero = 0 , l = arr.length-1;
+        //先统计拷贝0后长度
+        //即统计从末尾来看 多少个元素会被挤出去
+        while(i <= l){
+            if(arr[i] == 0)
+                zero++;
+            if(i + zero >= l)
+                break;
+            i++;
+        }
+        while(i >=0){
+            arr[l--] = arr[i];
+            //这时候 l = -1
+            if(arr[i] == 0 && (i + zero <= arr.length - 1) )//<=用来判断最后一个如果是0是否超出边界 即最右侧的0
+                 arr[l--] = arr[i];
+            i--;
+        }
+    }
+    /*
+    public void duplicateZeros(int[] arr) {
+        //可以搞一个队列
+        //也可以直接后移
+        for(int i = 0;i < arr.length;i++){
+            if(arr[i] == 0){
+                //当前下标后的元素全部后移
+                for(int j = arr.length - 1;j > i;j--){
+                    arr[j] = arr[j - 1];
+                }
+                //由于复制了一个0 必须让i多加一次
+                i++;
+            }
+        }
+    }
+    */
+}
